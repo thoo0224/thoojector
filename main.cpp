@@ -148,11 +148,11 @@ int WinMain(
 				if (!g_IsProcessComboOpen)
 					break;
 
-				printf("[INF] Waiting for combo box to close...\n");
+				//printf("[INF] Waiting for combo box to close...\n");
 				std::this_thread::sleep_for(std::chrono::milliseconds(100));
 			}
 
-			printf("[INF] Scanning for processes\n");
+			//printf("[INF] Scanning for processes\n");
 			Process::LoadProcessEntries();
 		}
 	});
