@@ -38,7 +38,7 @@ static void GlfwDropCallback(GLFWwindow* Window, int PathNum, const char* Paths[
 	g_CurrentProfilePanel->AddDroppedFiles(PathNum, Paths);
 }
 
-void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
+static void GifskiFrameBufferSizeCallback(GLFWwindow* Window, int Width, int Height)
 {
 	glViewport(0, 0, Width, Height);
 	RenderFrame(Window);
@@ -112,7 +112,7 @@ int WinMain(
 	if (!Window)
 		return 1;
 
-	glfwSetFramebufferSizeCallback(Window, FramebufferSizeCallback);
+	glfwSetFramebufferSizeCallback(Window, GifskiFrameBufferSizeCallback);
 	glfwSetDropCallback(Window, GlfwDropCallback);
 	glfwMakeContextCurrent(Window);
 	glfwSwapInterval(VSYNC);
