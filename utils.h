@@ -10,7 +10,7 @@ inline bool string_ends_with(std::string const& value, std::string const& ending
 
 inline std::string generate_random_string(size_t Size)
 {
-    const std::string CharSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    static std::string CharSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     std::string Result;
     while (Result.size() != Size) {
         int pos = rand() % (CharSet.size() - 1);
