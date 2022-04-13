@@ -10,24 +10,23 @@
 class ProfilePanel
 {
 public:
+	ConfigProfile& Profile;
 	std::string ProfileName;
 
-	ProfilePanel(const char* ProfileName)
-		: ProfileName(ProfileName)
+	ProfilePanel(ConfigProfile& Profile)
+		: Profile(Profile),
+		  ProfileName(Profile.Name),
+          m_Images(Profile.Images)
 	{
 		// todo: make this better
 		m_SelectedProcessEntryLabel = g_ProcessEntries.begin()->second.GetFormatted();
 	}
 
-	explicit ProfilePanel(ConfigProfile& Config)
-		: ProfilePanel(Config.Name.c_str())
-	{ }
-
 	void Render();
 	void AddDroppedFiles(int PathNum, const char* Paths[]);
 
 private:
-	std::vector<std::filesystem::path> m_Images;
+	std::vector<std::filesystem::path>& m_Images;
 	std::vector<std::string> m_ProcessEntries;
 	std::string m_SelectedProcessEntryLabel;
 

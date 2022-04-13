@@ -28,6 +28,17 @@ namespace Configuration
 			json ProfileJson = ProfileArray.at(i);
 
 			Profile.Name = ProfileJson["Name"];
+
+			std::vector<std::filesystem::path> Images;
+			json ImagesArray = ProfileJson["Images"];
+			size_t NumImages = ImagesArray.size();
+			for(size_t j = 0; j < NumImages; j++)
+			{
+				std::filesystem::path ImagePath = ImagesArray[j];
+				Images.emplace_back(ImagePath);
+			}
+
+			Profile.Images = Images;
 			Profiles.emplace_back(Profile);
 		}
 
@@ -43,6 +54,11 @@ namespace Configuration
 			json ProfileJson;
 			ProfileJson["Name"] = Profile.Name;
 
+			json ImagesArray = json::array();
+			for(std::filesystem::path& ImagePath : Profile.Images)
+				ImagesArray.emplace_back(ImagePath);
+
+			ProfileJson["Images"] = ImagesArray;
 			ProfileArray.emplace_back(ProfileJson);
 		}
 

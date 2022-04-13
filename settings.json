@@ -1,13 +1,10 @@
 {
     "Profiles": [
         {
-            "Name": "Profile 2"
-        },
-        {
+            "Images": [
+                "C:\\Users\\Thoma\\Desktop\\dummy_dll.dll"
+            ],
             "Name": "Profile 1"
-        },
-        {
-            "Name": "Profile 12"
         }
     ]
 }

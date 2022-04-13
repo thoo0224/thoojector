@@ -4,14 +4,13 @@
 
 #include "panels/ProfilePanel.h"
 
+extern std::vector<ProfilePanel> ProfilePanels;
 extern ProfilePanel* g_CurrentProfilePanel;
 
 namespace Gui
 {
 
 	using namespace Process;
-
-	static std::vector<ProfilePanel> ProfilePanels;
 
 	void Render();
 	void Setup();
