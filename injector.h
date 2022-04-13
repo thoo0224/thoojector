@@ -302,18 +302,16 @@ namespace Injector
 		}
 
 		WriteProcessMemory(hProc, pDllPath, szDllFile, DllSize, nullptr);
-		HANDLE hThread = CreateRemoteThread(
+		if (HANDLE hThread = CreateRemoteThread(
 			hProc,
 			nullptr,
 			0,
 			reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA")),
 			pDllPath,
 			0,
-			nullptr);
-		if (!hThread)
-		{
-			CloseHandle(hThread);
-		}
+			nullptr)) CloseHandle(hThread);
+
+		return InjectResult::Success;
 	}
 
 	inline API InjectResult NativeInject(HANDLE hProc, const char* szDllFile, bool CloseHandleAfterInject = true)
