@@ -81,7 +81,7 @@ void ProfilePanel::Render()
 		m_Images.clear();
 		for(auto& [Image, IsSelected] : m_SelectedImages)
 		{
-			if (!IsSelected)
+			if (IsSelected)
 				continue;
 
 			m_Images.push_back(Image);
