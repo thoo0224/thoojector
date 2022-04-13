@@ -4,8 +4,9 @@
 
 #include "panels/ProfilePanel.h"
 
-extern std::vector<ProfilePanel> ProfilePanels;
+extern std::vector<ProfilePanel> g_ProfilePanels;
 extern ProfilePanel* g_CurrentProfilePanel;
+extern bool g_IsProcessComboOpen;
 
 namespace Gui
 {

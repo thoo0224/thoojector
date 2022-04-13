@@ -5,8 +5,9 @@
 #include "console/ConsoleComponent.h"
 #include "config/config.h"
 
-std::vector<ProfilePanel> ProfilePanels;
+std::vector<ProfilePanel> g_ProfilePanels;
 ProfilePanel* g_CurrentProfilePanel;
+bool g_IsProcessComboOpen = false;
 
 //#define USE_CONSOLE
 #ifdef USE_CONSOLE
@@ -45,7 +46,7 @@ void Gui::Render()
 		ImGui::EndMainMenuBar();
 	}
 
-	for(auto& Panel : ProfilePanels)
+	for(auto& Panel : g_ProfilePanels)
 	{
 		ImGui::Begin(Panel.ProfileName.c_str());
 		Panel.Render();
@@ -60,13 +61,13 @@ void Gui::Render()
 void Gui::OpenProfile(ConfigProfile& Profile)
 {
 	ProfilePanel Panel(Profile);
-	ProfilePanels.push_back(Panel);
+	g_ProfilePanels.push_back(Panel);
 }
 
 void Gui::Setup()
 {
 	OpenProfile(g_Config.Profiles.at(0));
-	auto& Panel = ProfilePanels.at(0);
+	auto& Panel = g_ProfilePanels.at(0);
 	g_CurrentProfilePanel = &Panel;
 }
 
@@ -83,7 +84,7 @@ void Gui::CloseProfile()
 	//ImGuiWindow* Window = ImGui::GetCurrentWindow();
 	//ImGuiContext* Ctx = ImGui::GetCurrentContext();
 
-	//ProfilePanels.erase(ProfilePanels.begin());
+	//g_ProfilePanels.erase(g_ProfilePanels.begin());
 }
 
 void Gui::ApplyStyles()

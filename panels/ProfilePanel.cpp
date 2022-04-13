@@ -9,6 +9,7 @@
 #include "../imgui/imgui.h"
 #include "../injector.h"
 #include "../utils.h"
+#include "../gui.h"
 
 using namespace Process;
 
@@ -27,6 +28,7 @@ void ProfilePanel::Render()
 	ImGui::SetNextItemWidth(AvailableRegion.x);
 	if (ImGui::BeginCombo("##process_combo", m_SelectedProcessEntryLabel.data(), ImGuiComboFlags_HeightLarge))
 	{
+		g_IsProcessComboOpen = true;
 		for (auto& [key, Entry] : g_ProcessEntries)
 		{
 			std::string Formatted = Entry.GetFormatted();
@@ -39,6 +41,9 @@ void ProfilePanel::Render()
 		}
 
 		ImGui::EndCombo();
+	} else
+	{
+		g_IsProcessComboOpen = false;
 	}
 
 	ImGui::Spacing();

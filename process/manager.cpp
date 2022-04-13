@@ -5,7 +5,6 @@
 
 #include "../utils.h"
 
-// todo: fix duplicates
 std::map<std::string, Process::ProcessEntry> g_ProcessEntries;
 
 void Process::LoadProcessEntries()

@@ -4,6 +4,8 @@
 
 #include <Windows.h>
 #include <GLFW/glfw3.h>
+#include <thread>
+#include <chrono>
 
 #include "windows/profiles.h"
 #include "gui.h"
@@ -135,6 +137,25 @@ int WinMain(
 	ImGui_ImplOpenGL3_Init();
 
 	Process::LoadProcessEntries();
+	std::thread ProcessScanningThread = std::thread([]
+	{
+		while(true)
+		{
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			while (true)
+			{
+				if (!g_IsProcessComboOpen)
+					break;
+
+				printf("[INF] Waiting for combo box to close...\n");
+				std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			}
+
+			printf("[INF] Scanning for processes\n");
+			Process::LoadProcessEntries();
+		}
+	});
+
 	Gui::Setup();
 
 	while(!glfwWindowShouldClose(Window))
@@ -143,6 +164,7 @@ int WinMain(
 		RenderFrame(Window);
 	}
 
+	ProcessScanningThread.detach();
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
@@ -150,6 +172,5 @@ int WinMain(
 	glfwDestroyWindow(Window);
 	glfwTerminate();
 
-	//Configuration::WriteConfig(g_Config, CONFIG_PATH);
 	Configuration::SaveConfig();
 }
