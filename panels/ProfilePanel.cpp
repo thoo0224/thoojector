@@ -69,16 +69,6 @@ void ProfilePanel::Render()
 		ImGui::EndTable();
 	}
 
-	//if (ImGui::BeginDragDropTarget())
-	//{
-	//	if(const ImGuiPayload* Payload = ImGui::AcceptDragDropPayload("FILES", ImGuiDragDropFlags_SourceExtern))
-	//	{
-	//		printf("\n5p", Payload);
-	//	}
-
-	//	ImGui::BeginDragDropTarget();
-	//}
-
 	ImGui::Spacing();
 
 	ImVec2 ButtonSize = ImVec2{ 75, 25 };
