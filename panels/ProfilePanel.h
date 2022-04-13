@@ -5,11 +5,12 @@
 #include <map>
 
 #include "../process/manager.h"
+#include "../config/config.h"
 
 class ProfilePanel
 {
 public:
-	const char* ProfileName;
+	std::string ProfileName;
 
 	ProfilePanel(const char* ProfileName)
 		: ProfileName(ProfileName)
@@ -17,6 +18,10 @@ public:
 		// todo: make this better
 		m_SelectedProcessEntryLabel = g_ProcessEntries.begin()->second.szExeFile;
 	}
+
+	explicit ProfilePanel(ConfigProfile& Config)
+		: ProfilePanel(Config.Name.c_str())
+	{ }
 
 	void Render();
 	void AddDroppedFiles(int PathNum, const char* Paths[]);

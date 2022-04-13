@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="config\config.cpp" />
     <ClCompile Include="console\console.cpp" />
     <ClCompile Include="console\ConsoleComponent.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="process\manager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="config\config.h" />
     <ClInclude Include="console\console.h" />
     <ClInclude Include="console\ConsoleComponent.h" />
     <ClInclude Include="deps\include\GLFW\glfw3.h" />

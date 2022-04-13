@@ -104,6 +104,9 @@ int WinMain(
 	freopen_s(&pFile, "CONOUT$", "w", stdout);
 #endif
 
+	//Configuration::ReadConfig(g_Config, CONFIG_PATH);
+	Configuration::ReadConfig();
+
 	glfwSetErrorCallback(GlfwErrorCallback);
 	if (!glfwInit())
 		return 1;
@@ -146,4 +149,7 @@ int WinMain(
 
 	glfwDestroyWindow(Window);
 	glfwTerminate();
+
+	//Configuration::WriteConfig(g_Config, CONFIG_PATH);
+	Configuration::SaveConfig();
 }

@@ -1,5 +1,6 @@
 #include "gui.h"
-#include "./console/ConsoleComponent.h"
+#include "console/ConsoleComponent.h"
+#include "config/config.h"
 
 ProfilePanel* g_CurrentProfilePanel;
 
@@ -12,7 +13,7 @@ void Gui::Render()
 {
 	for (ProfilePanel& Panel : ProfilePanels)
 	{
-		ImGui::Begin(Panel.ProfileName);
+		ImGui::Begin(Panel.ProfileName.c_str());
 		Panel.Render();
 		ImGui::End();
 	}
@@ -22,12 +23,14 @@ void Gui::Render()
 #endif
 }
 
-// todo
 void Gui::Setup()
 {
-	ProfilePanels.emplace_back("Profile 1");
-	auto& Panel = ProfilePanels.at(0);
+	for(ConfigProfile& Profile : g_Config.Profiles)
+	{
+		ProfilePanels.emplace_back(Profile);
+	}
 
+	auto& Panel = ProfilePanels.at(0);
 	g_CurrentProfilePanel = &Panel;
 }
 
