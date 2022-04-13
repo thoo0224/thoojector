@@ -43,7 +43,7 @@ void ProfilePanel::Render()
 	ImGui::Spacing();
 	ImGui::Text("Images");
 
-	ImGuiTableFlags ImageTableFlags = ImGuiTableFlags_NoBordersInBody | ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders;
+	ImGuiTableFlags ImageTableFlags = ImGuiTableFlags_NoBordersInBody | ImGuiTableFlags_ScrollY| ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders;
 	if (ImGui::BeginTable("#images_table", 2, ImageTableFlags, ImVec2{ 0, 135 }))
 	{
 
@@ -110,7 +110,6 @@ void ProfilePanel::Render()
 		Inject();
 }
 
-// todo: duplicated files
 void ProfilePanel::AddDroppedFiles(int PathNum, const char* Paths[])
 {
 	for(int i = 0; i < PathNum; i++)
@@ -122,7 +121,7 @@ void ProfilePanel::AddDroppedFiles(int PathNum, const char* Paths[])
 			continue;
 		}
 
-		m_Images.emplace_back(Path);
+		AddDllFile(Path);
 	}
 }
 
@@ -157,7 +156,7 @@ void ProfilePanel::Inject()
 		InjectResult Result = NativeInject(pHandle, szDllFile);
 		if(Result != InjectResult::Success)
 		{
-			printf("[ERR] Failed to inject, error code: 0x%x\n", Result);
+			printf("[ERR] Failed to inject, error code: 0x%hhd\n", Result);
 			continue;
 		}
 
@@ -186,7 +185,18 @@ void ProfilePanel::OpenAddImageDialog()
 
 	if(GetOpenFileNameA(&Ofn))
 	{
-		// todo: duplicated files
-		m_Images.emplace_back(Ofn.lpstrFile);
+		AddDllFile(Ofn.lpstrFile);
 	}
+}
+
+void ProfilePanel::AddDllFile(std::filesystem::path&& Path)
+{
+	std::filesystem::path FsPath = Path;
+	if(std::ranges::count(m_Images, FsPath))
+	{
+		printf("[INF] Skipping duplicate %ls\n", FsPath.c_str());
+		return;
+	}
+
+	m_Images.emplace_back(FsPath);
 }

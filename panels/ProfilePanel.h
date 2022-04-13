@@ -31,4 +31,5 @@ private:
 
 	void Inject();
 	void OpenAddImageDialog();
+	void AddDllFile(std::filesystem::path&& Path);
 };
