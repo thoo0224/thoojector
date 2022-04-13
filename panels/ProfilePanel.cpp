@@ -29,9 +29,10 @@ void ProfilePanel::Render()
 	{
 		for (auto& [key, Entry] : g_ProcessEntries)
 		{
-			bool IsSelected = Entry.szExeFile == m_SelectedProcessEntryLabel;
+			std::string Formatted = Entry.GetFormatted();
+			bool IsSelected = Formatted == m_SelectedProcessEntryLabel;
 			if (ImGui::Selectable(key.data(), IsSelected))
-				m_SelectedProcessEntryLabel = Entry.szExeFile;
+				m_SelectedProcessEntryLabel = Formatted;
 
 			if (IsSelected)
 				ImGui::SetItemDefaultFocus();

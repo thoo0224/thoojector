@@ -3,6 +3,7 @@
 #include "config/config.h"
 
 ProfilePanel* g_CurrentProfilePanel;
+int g_CurrentProfilePanelIdx;
 
 //#define USE_CONSOLE
 #ifdef USE_CONSOLE
@@ -11,6 +12,37 @@ ConsoleComponent Console;
 
 void Gui::Render()
 {
+	if(ImGui::BeginMainMenuBar())
+	{
+		if(ImGui::BeginMenu("Profile"))
+		{
+			if (ImGui::MenuItem("New"))
+				CreateNewProfile();
+
+			if(ImGui::BeginMenu("Open"))
+			{
+				for(ConfigProfile& Profile : g_Config.Profiles)
+				{
+					if(ImGui::MenuItem(Profile.Name.c_str()))
+					{
+						OpenProfile(Profile);
+					}
+				}
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::MenuItem("Close"))
+				CloseProfile();
+
+			ImGui::MenuItem("Save");
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::EndMainMenuBar();
+	}
+
 	for (ProfilePanel& Panel : ProfilePanels)
 	{
 		ImGui::Begin(Panel.ProfileName.c_str());
@@ -23,15 +55,34 @@ void Gui::Render()
 #endif
 }
 
+void Gui::OpenProfile(ConfigProfile& Profile)
+{
+	ProfilePanels.emplace_back(Profile);
+}
+
 void Gui::Setup()
 {
 	for(ConfigProfile& Profile : g_Config.Profiles)
 	{
 		ProfilePanels.emplace_back(Profile);
 	}
-
-	auto& Panel = ProfilePanels.at(0);
+	
+	g_CurrentProfilePanelIdx = 0;
+	auto& Panel = ProfilePanels.at(g_CurrentProfilePanelIdx);
 	g_CurrentProfilePanel = &Panel;
+}
+
+void Gui::CreateNewProfile()
+{
+	ConfigProfile Profile = { "New"};
+	g_Config.Profiles.push_back(Profile);
+	ProfilePanels.emplace_back(Profile);
+}
+
+void Gui::CloseProfile()
+{
+	ProfilePanels.erase(ProfilePanels.begin() + g_CurrentProfilePanelIdx);
+	g_CurrentProfilePanel = &ProfilePanels.at(0);
 }
 
 void Gui::ApplyStyles()

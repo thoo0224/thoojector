@@ -16,7 +16,7 @@ public:
 		: ProfileName(ProfileName)
 	{
 		// todo: make this better
-		m_SelectedProcessEntryLabel = g_ProcessEntries.begin()->second.szExeFile;
+		m_SelectedProcessEntryLabel = g_ProcessEntries.begin()->second.GetFormatted();
 	}
 
 	explicit ProfilePanel(ConfigProfile& Config)

@@ -1,6 +1,7 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <format>
 
 namespace Process
 {
@@ -14,6 +15,11 @@ namespace Process
 		HANDLE OpenHandle()
 		{
 			return OpenProcess(PROCESS_ALL_ACCESS, FALSE, pId);
+		}
+
+		std::string GetFormatted()
+		{
+			return std::format("{} ({})", szExeFile, pId);
 		}
 	};
 

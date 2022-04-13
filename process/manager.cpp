@@ -24,13 +24,13 @@ void Process::LoadProcessEntries()
 		{
 			continue;
 		}
-		;
+		
 		ProcessEntry Entry = {
 			pEntry.th32ProcessID,
 			szExeFile
 		};
 
-		g_ProcessEntries[Entry.szExeFile] = Entry;
+		g_ProcessEntries[std::format("{} ({})", Entry.szExeFile, Entry.pId)] = Entry;
 	} while (Process32Next(hSnapshot, &pEntry));
 
 	CloseHandle(hSnapshot);

@@ -15,6 +15,9 @@ namespace Gui
 
 	void Render();
 	void Setup();
-	void ApplyStyles();
+	void CreateNewProfile();
+	void CloseProfile();
+	void OpenProfile(ConfigProfile& Profile);
 
+	void ApplyStyles();
 }
