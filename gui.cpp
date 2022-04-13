@@ -72,9 +72,10 @@ void Gui::Setup()
 
 void Gui::CreateNewProfile()
 {
-	ConfigProfile Profile = { "New"};
-	g_Config.Profiles.push_back(Profile);
-	ProfilePanels.emplace_back(Profile);
+	ConfigProfile Profile = { "New", { }};
+
+	auto& Added = g_Config.Profiles.emplace_back(Profile);
+	OpenProfile(Added);
 }
 
 void Gui::CloseProfile()
