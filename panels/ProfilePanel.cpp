@@ -26,7 +26,7 @@ void ProfilePanel::Render()
 	ImGui::SetNextItemWidth(AvailableRegion.x);
 	if (ImGui::BeginCombo("##process_combo", m_SelectedProcessEntryLabel.data(), ImGuiComboFlags_HeightLarge))
 	{
-		for (auto [key, Entry] : g_ProcessEntries)
+		for (auto& [key, Entry] : g_ProcessEntries)
 		{
 			bool IsSelected = Entry.szExeFile == m_SelectedProcessEntryLabel;
 			if (ImGui::Selectable(key.data(), IsSelected))
