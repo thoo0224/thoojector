@@ -9,6 +9,7 @@
 
 #include "windows/profiles.h"
 #include "gui.h"
+#include "utils.h"
 
 #ifdef _DEBUG
 #define USE_CONSOLE
@@ -113,7 +114,7 @@ int WinMain(
 	if (!glfwInit())
 		return 1;
 
-	GLFWwindow* Window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Thoojector", nullptr, nullptr);
+	GLFWwindow* Window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, generate_random_string(16).c_str(), nullptr, nullptr);
 	if (!Window)
 		return 1;
 
@@ -173,4 +174,5 @@ int WinMain(
 	glfwTerminate();
 
 	Configuration::SaveConfig();
+	return 0;
 }
