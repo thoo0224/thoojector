@@ -8,6 +8,7 @@
 
 #include "../imgui/imgui.h"
 #include "../injector.h"
+#include "../utils.h"
 
 using namespace Process;
 
@@ -119,6 +120,22 @@ void ProfilePanel::Render()
 		Inject();
 }
 
+// todo: duplicated files
+void ProfilePanel::AddDroppedFiles(int PathNum, const char* Paths[])
+{
+	for(int i = 0; i < PathNum; i++)
+	{
+		const char* Path = Paths[i];
+		if(!string_ends_with(Path, ".dll"))
+		{
+			printf("[WRN] Skipping file %s because it's not a DLL.\n", Path);
+			continue;
+		}
+
+		m_Images.emplace_back(Path);
+	}
+}
+
 void ProfilePanel::Inject()
 {
 	using namespace Injector;
@@ -179,6 +196,7 @@ void ProfilePanel::OpenAddImageDialog()
 
 	if(GetOpenFileNameA(&Ofn))
 	{
+		// todo: duplicated files
 		m_Images.emplace_back(Ofn.lpstrFile);
 	}
 }

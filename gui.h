@@ -4,6 +4,8 @@
 
 #include "panels/ProfilePanel.h"
 
+extern ProfilePanel* g_CurrentProfilePanel;
+
 namespace Gui
 {
 

@@ -19,9 +19,29 @@
 static ImGuiDockNodeFlags DockspaceFlags = ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode;
 static ImVec4 ClearColor = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+void RenderFrame(GLFWwindow* Window);
+
 static void GlfwErrorCallback(int ErrorCode, const char* Description)
 {
 	fprintf(stderr, "GLFW Error %d: %s\n", ErrorCode, Description);
+}
+
+static void GlfwDropCallback(GLFWwindow* Window, int PathNum, const char* Paths[])
+{
+	printf("[INF] Received glfwDropCallback with %d files.\n", PathNum);
+	if (!g_CurrentProfilePanel)
+	{
+		printf("[WRN] Received file drop callback, but there is g_CurrentProfilePanel is null.\n");
+		return;
+	}
+
+	g_CurrentProfilePanel->AddDroppedFiles(PathNum, Paths);
+}
+
+void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
+{
+	glViewport(0, 0, Width, Height);
+	RenderFrame(Window);
 }
 
 void RenderFrame(GLFWwindow* Window)
@@ -55,7 +75,7 @@ void RenderFrame(GLFWwindow* Window)
 	int DisplayWidth = 0;
 	int DisplayHeight = 0;
 	glfwGetFramebufferSize(Window, &DisplayWidth, &DisplayHeight);
-	glViewport(0, 0, DisplayWidth, DisplayHeight);
+	glViewport(0, 0, DisplayWidth, DisplayHeight);\
 
 	glClearColor(ClearColor.x * ClearColor.w, ClearColor.y * ClearColor.w, ClearColor.z * ClearColor.w, ClearColor.w);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -70,12 +90,6 @@ void RenderFrame(GLFWwindow* Window)
 	}
 
 	glfwSwapBuffers(Window);
-}
-
-void FramebufferSizeCallback(GLFWwindow* Window, int Width, int Height)
-{
-	glViewport(0, 0, Width, Height);
-	RenderFrame(Window);
 }
 
 int WinMain(
@@ -99,6 +113,7 @@ int WinMain(
 		return 1;
 
 	glfwSetFramebufferSizeCallback(Window, FramebufferSizeCallback);
+	glfwSetDropCallback(Window, GlfwDropCallback);
 	glfwMakeContextCurrent(Window);
 	glfwSwapInterval(VSYNC);
 

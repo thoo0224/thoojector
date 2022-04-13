@@ -1,8 +1,12 @@
 #include "gui.h"
 #include "./console/ConsoleComponent.h"
 
+ProfilePanel* g_CurrentProfilePanel;
+
 //#define USE_CONSOLE
+#ifdef USE_CONSOLE
 ConsoleComponent Console;
+#endif
 
 void Gui::Render()
 {
@@ -22,7 +26,9 @@ void Gui::Render()
 void Gui::Setup()
 {
 	ProfilePanels.emplace_back("Profile 1");
-	ProfilePanels.emplace_back("Profile 2");
+	auto& Panel = ProfilePanels.at(0);
+
+	g_CurrentProfilePanel = &Panel;
 }
 
 void Gui::ApplyStyles()

@@ -5,7 +5,6 @@
 #include <map>
 
 #include "../process/manager.h"
-#include "../console/console.h"
 
 class ProfilePanel
 {
@@ -20,6 +19,7 @@ public:
 	}
 
 	void Render();
+	void AddDroppedFiles(int PathNum, const char* Paths[]);
 
 private:
 	std::vector<std::filesystem::path> m_Images;
