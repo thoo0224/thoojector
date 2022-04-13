@@ -114,7 +114,8 @@ int WinMain(
 	if (!glfwInit())
 		return 1;
 
-	GLFWwindow* Window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, generate_random_string(16).c_str(), nullptr, nullptr);
+	constexpr size_t WindowTitleSize = 16;
+	GLFWwindow* Window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, generate_random_string(WindowTitleSize).c_str(), nullptr, nullptr);
 	if (!Window)
 		return 1;
 

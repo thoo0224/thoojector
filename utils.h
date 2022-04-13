@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <filesystem>
+#include <random>
 
 inline bool string_ends_with(std::string const& value, std::string const& ending)
 {
@@ -8,13 +8,18 @@ inline bool string_ends_with(std::string const& value, std::string const& ending
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
-inline std::string generate_random_string(size_t Size)
+inline std::string generate_random_string(size_t length = 0)
 {
-    static std::string CharSet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    std::string Result;
-    while (Result.size() != Size) {
-        int pos = rand() % (CharSet.size() - 1);
-        Result += CharSet.substr(pos, 1);
+    static const std::string allowed_chars{ "123456789BCDFGHJKLMNPQRSTVWXZbcdfghjklmnpqrstvwxz" };
+
+    static thread_local std::default_random_engine randomEngine(std::random_device{}());
+    static thread_local std::uniform_int_distribution<int> randomDistribution(0, allowed_chars.size() - 1);
+
+    std::string id(length ? length : 32, '\0');
+
+    for (std::string::value_type& c : id) {
+        c = allowed_chars[randomDistribution(randomEngine)];
     }
-    return Result;
+
+    return id;
 }
