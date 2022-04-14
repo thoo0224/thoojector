@@ -202,7 +202,6 @@
     <ClInclude Include="process\entry.h" />
     <ClInclude Include="process\manager.h" />
     <ClInclude Include="utils.h" />
-    <ClInclude Include="windows\profiles.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
