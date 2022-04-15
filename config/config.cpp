@@ -1,4 +1,5 @@
 #include "config.h"
+
 #include <nlohmann/json.hpp>
 #include <filesystem>
 #include <fstream>
@@ -38,6 +39,9 @@ namespace Configuration
 				Images.emplace_back(ImagePath);
 			}
 
+			if(ProfileJson.contains("LastProcess"))
+				Profile.LastProcess = ProfileJson["LastProcess"];
+
 			Profile.Images = Images;
 			Profiles.emplace_back(Profile);
 		}
@@ -59,6 +63,7 @@ namespace Configuration
 				ImagesArray.emplace_back(ImagePath);
 
 			ProfileJson["Images"] = ImagesArray;
+			ProfileJson["LastProcess"] = Profile.LastProcess;
 			ProfileArray.emplace_back(ProfileJson);
 		}
 

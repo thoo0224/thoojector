@@ -13,8 +13,20 @@
 
 using namespace Process;
 
+
 void ProfilePanel::Render()
 {
+	static bool Initialize = true;
+	if(Initialize)
+	{
+		if(ProcessEntry* Entry = Profile.GetLastProcessEntry())
+		{
+			m_SelectedProcessEntryLabel = Entry->GetFormatted();
+		}
+
+		Initialize = false;
+	}
+
 	ImVec2 AvailableRegion = ImGui::GetContentRegionAvail();
 
 	ImGui::Text("Process");
@@ -34,7 +46,11 @@ void ProfilePanel::Render()
 			std::string Formatted = Entry.GetFormatted();
 			bool IsSelected = Formatted == m_SelectedProcessEntryLabel;
 			if (ImGui::Selectable(key.data(), IsSelected))
+			{
+				Profile.LastProcess = Entry.szExeFile;
 				m_SelectedProcessEntryLabel = Formatted;
+				m_SelectingClosedProcess = false;
+			}
 
 			if (IsSelected)
 				ImGui::SetItemDefaultFocus();
@@ -134,6 +150,14 @@ void ProfilePanel::AddDroppedFiles(int PathNum, const char* Paths[])
 void ProfilePanel::Inject()
 {
 	using namespace Injector;
+	if(m_SelectingClosedProcess)
+	{
+		GLFWwindow* Window = glfwGetCurrentContext();
+		HWND hWnd = glfwGetWin32Window(Window);
+
+		MessageBoxA(hWnd, "The selected process is closed!", "Failed", 0);
+		return;
+	}
 
 	ProcessEntry& Entry = g_ProcessEntries[m_SelectedProcessEntryLabel];
 	printf("[INF] Opening %s (%lu)\n", Entry.szExeFile.c_str(), Entry.pId);

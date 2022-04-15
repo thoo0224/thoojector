@@ -7,7 +7,6 @@
 #include <thread>
 #include <chrono>
 
-#include "windows/profiles.h"
 #include "gui.h"
 #include "utils.h"
 
@@ -155,6 +154,24 @@ int WinMain(
 
 			//printf("[INF] Scanning for processes\n");
 			Process::LoadProcessEntries();
+
+			bool FoundProcess = false;
+			ProfilePanel* pPanel = g_CurrentProfilePanel;
+			for(auto& [label, _] : g_ProcessEntries)
+			{
+				if(!strcmp(pPanel->m_SelectedProcessEntryLabel.c_str(), label.c_str()))
+				{
+					FoundProcess = true;
+					break;
+				}
+			}
+
+			if(!pPanel->m_SelectingClosedProcess && !FoundProcess)
+			{
+				pPanel->m_SelectingClosedProcess = true;
+				std::string& Label = pPanel->m_SelectedProcessEntryLabel;
+				Label = std::format("{} (closed)", Label);
+			}
 		}
 	});
 
